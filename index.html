@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Points of Disinterest</title>
-    <script src="public/vue.js"></script>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <title>Points of Disinterest</title>
+  <script src="public/vue.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="jssdk-4/tomtom.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="jssdk-4/map.css"/>
+</head>
+<body>
 
-    <div id="app">
-      {{ message }}
-    </div>
+  <div id="app">
+    {{ message }}
+  </div>
+  <script src="app.js"></script>
 
-    <script src="app.js"></script>
-  </body>
+  <div id="map" style="width: 500px; height: 500px;"></div>
+  <script>
+    var startPos;
+    var geoSuccess = function(position) {
+      startPos = position;
+    };
+    navigator.geolocation.getCurrentPosition(geoSuccess);
+
+    tomtom.key("b3ZvXNJXHCtWtPogGdS2eBkWMsXhRG6T");
+    var map = tomtom.map("map").setView([39.9778, -105.1319], 14);
+    marker = tomtom.L.marker([39.9778, -105.1319], {
+      draggable: true
+    }).bindPopup('Current Location').addTo(map);
+
+    // Show popup each time the marker is moved
+    marker.on('dragend', function(e) {
+      tomtom.reverseGeocode({position: e.target.getLatLng()})
+      .go(function(response) {
+        if (response && response.address && response.address.freeformAddress) {
+          marker.setPopupContent(response.address.freeformAddress);
+        } else {
+          marker.setPopupContent('No results found');
+        }
+        marker.openPopup();
+      });
+    });
+  </script>
+
+</body>
 </html>
