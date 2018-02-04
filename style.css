@@ -1,3 +1,5 @@
+
+/* Transition animation */
 .bounce-enter-active {
   animation: bounce-in .5s;
 }
@@ -28,6 +30,10 @@ ul{
   padding: 0;
 }
 
+#searchField {
+  background-color: #35424a;
+}
+
 body{
   /* font-size/line-height font-family */
   font: 15px/1.5 Arial, Helvetica, sans-serif;
@@ -37,7 +43,7 @@ body{
   background-color: #35424a;
 }
 
-body #big-map{
+body #big-map, #result-list{
   border-bottom: #e8491d 3px solid;
 }
 
@@ -89,7 +95,7 @@ header a:hover{
 /* Footer */
 footer{
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 0px;
   color: #ffffff;
   background-color: #e8491d;
   text-align: center;
