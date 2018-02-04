@@ -70,7 +70,6 @@ var results = new Vue({
 
 function appendResults(response) {
   results.items = [];
-  console.log(response.results)
   for (let place of response.results) {
     let name = place.poi.name;
     let address = place.address.freeformAddress;
@@ -90,9 +89,10 @@ var search = new Vue({
   el: "#search",
   methods: {
     searchPOI : function(e){
-      console.log("hellos")
       e.preventDefault();
-      console.log(routeInputsInstance.searchBoxes[0].selectedLocation.lat, routeInputsInstance.searchBoxes[0].selectedLocation.lon)
+      if (!routeInputsInstance.searchBoxes[0].input.value) {
+        return alert("Please enter a start point and destination");
+      }
       tomtom.alongRouteSearch({
         limit: 20,
         maxDetourTime: 120,
