@@ -32,10 +32,11 @@
       <div id="map" style="height: 500px;"></div>
     </div>
     <div id="result-list" class="col-md-6 col-xs-12">
-      <h2 class="text-center">Search Results</h2>
+      <button class="btn btn-info" id="search" v-on:click="searchPOI($event)">Search</button>
+      <h2 class="text-center">Along The Way</h2>
       <ul id="results">
         <li v-for="item in items">
-          <p>{{item.name}}</p>
+          <p v-on:click="addRoute($event)">{{item.name}}</p>
           <p>{{item.address}}</p>
           <p>{{item.url}}</p>
           <p>{{item.category}}</p>
@@ -43,10 +44,6 @@
       </ul>
     </div>
   </div>
-
-    <div id="search" style="display: inline-block;">
-        <button class="btn btn-default" v-on:click="searchPOI($event)">Submit</button>
-    </div>
 
 <script src="app.js"></script>
 

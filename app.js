@@ -1,10 +1,3 @@
-var searchField = new Vue({
-  el: "#searchField",
-  data: {
-    show: false
-  }
-})
-
 tomtom.key('xmAGh1TQiNYjuwZsDOJL4SpOjhVdWns7');
 var map = tomtom.map("map");
 map.zoomControl.setPosition('topright');
@@ -52,7 +45,7 @@ var routeOnMapView = tomtom.routeOnMap({
     }
 }).addTo(map);
 // Creating route inputs widget
-var routeInputsInstance = tomtom.routeInputs({location: false})
+var routeInputsInstance = tomtom.routeInputs({location: tomtom.routeInputs.Location.Start})
     .addTo(map);
 // Connecting the route inputs widget with the route widget
 routeInputsInstance.on(routeInputsInstance.Events.LocationsFound, function(eventObject) {
@@ -65,6 +58,11 @@ var results = new Vue({
   el: "#results",
   data: {
     items: []
+  },
+  methods: {
+    addRoute : function(e){
+      console.log(this, e)
+    }
   }
 });
 
@@ -76,11 +74,14 @@ function appendResults(response) {
     let address = place.address.freeformAddress;
     let url = place.poi.url || 'default_url';
     let category = place.poi.categories[0];
+    let position = place.position
     let item = {
       'name': name,
       'address': address,
       'url' : url,
-      'category' : category
+      'category' : category,
+      'position' : position,
+      'id' : place.id
     }
     results.items.push(item)
   }
@@ -90,9 +91,7 @@ var search = new Vue({
   el: "#search",
   methods: {
     searchPOI : function(e){
-      console.log("hellos")
       e.preventDefault();
-      console.log(routeInputsInstance.searchBoxes[0].selectedLocation.lat, routeInputsInstance.searchBoxes[0].selectedLocation.lon)
       tomtom.alongRouteSearch({
         limit: 20,
         maxDetourTime: 120,
@@ -110,7 +109,21 @@ var search = new Vue({
           [routeInputsInstance.searchBoxes[1].selectedLocation.lat, routeInputsInstance.searchBoxes[1].selectedLocation.lon]
         ]
       }).go().then(appendResults);
-      // tomtom.poiSearch().query(q).center([startPos.coords.latitude, startPos.coords.longitude]).radius(10000).go().then(appendResults)
     }
   }
 });
+
+addPoint = function(){
+  routeInputsInstance.addInput()
+  let box = routeInputsInstance.searchBoxes[1]
+  let resultData = {
+    address: {freeformAddress: results.items[0].address},
+    poi: { name: results.items[0].name }
+  }
+  box.setResultData(resultData);
+  box.selectedLocation = results.items[0].position
+  locations = []
+  for (let box of routeInputsInstance.searchBoxes) {
+    locations.push(box.selectedLocation)
+  }
+}
