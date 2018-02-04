@@ -35,22 +35,17 @@
       <h2 class="text-center">Search Results</h2>
       <ul id="results">
         <li v-for="item in items">
-          {{ item.message }}
+          <p>{{item.name}}</p>
+          <p>{{item.address}}</p>
+          <p>{{item.url}}</p>
+          <p>{{item.category}}</p>
         </li>
       </ul>
     </div>
   </div>
 
-    <div id="searchField">
-      <button class="btn btn-primary" @click="show = !show" v-if="!show">I want to look a place up!</button>
-      <button class="btn btn-primary" @click="show = !show" v-if="show">I don't like change!</button>
-      <transition name="bounce">
-        <form v-if="show">
-          <label for="destination">Destination:</label>
-          <input type="text" name="destination">
-          <button class="btn btn-default" id="search">Submit</button>
-        </form>
-      </transition>
+    <div id="search" style="display: inline-block;">
+        <button class="btn btn-default" v-on:click="searchPOI($event)">Submit</button>
     </div>
 
 <script src="app.js"></script>

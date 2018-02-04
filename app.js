@@ -61,3 +61,56 @@ routeInputsInstance.on(routeInputsInstance.Events.LocationsFound, function(event
 routeInputsInstance.on(routeInputsInstance.Events.LocationsCleared, function(eventObject) {
     routeOnMapView.draw(eventObject.points);
 });
+var results = new Vue({
+  el: "#results",
+  data: {
+    items: []
+  }
+});
+
+function appendResults(response) {
+  results.items = [];
+  console.log(response.results)
+  for (let place of response.results) {
+    let name = place.poi.name;
+    let address = place.address.freeformAddress;
+    let url = place.poi.url || 'default_url';
+    let category = place.poi.categories[0];
+    let item = {
+      'name': name,
+      'address': address,
+      'url' : url,
+      'category' : category
+    }
+    results.items.push(item)
+  }
+};
+
+var search = new Vue({
+  el: "#search",
+  methods: {
+    searchPOI : function(e){
+      console.log("hellos")
+      e.preventDefault();
+      console.log(routeInputsInstance.searchBoxes[0].selectedLocation.lat, routeInputsInstance.searchBoxes[0].selectedLocation.lon)
+      tomtom.alongRouteSearch({
+        limit: 20,
+        maxDetourTime: 120,
+        query: 'food',
+        route: [
+          {
+            "lat": routeInputsInstance.searchBoxes[0].selectedLocation.lat,
+            "lon":routeInputsInstance.searchBoxes[0].selectedLocation.lon
+          },
+          {
+            "lat": routeInputsInstance.searchBoxes[1].selectedLocation.lat,
+            "lon": routeInputsInstance.searchBoxes[1].selectedLocation.lon
+          },
+          [routeInputsInstance.searchBoxes[0].selectedLocation.lat, routeInputsInstance.searchBoxes[0].selectedLocation.lon],
+          [routeInputsInstance.searchBoxes[1].selectedLocation.lat, routeInputsInstance.searchBoxes[1].selectedLocation.lon]
+        ]
+      }).go().then(appendResults);
+      // tomtom.poiSearch().query(q).center([startPos.coords.latitude, startPos.coords.longitude]).radius(10000).go().then(appendResults)
+    }
+  }
+});
