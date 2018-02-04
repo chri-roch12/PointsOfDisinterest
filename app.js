@@ -1,11 +1,3 @@
-var app = new Vue({
-  el: '#app',
-  data: {
-    message: 'Points of Disinterest'
-  }
-})
-
-
 var searchField = new Vue({
   el: "#searchField",
   data: {
