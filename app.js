@@ -61,7 +61,11 @@ var results = new Vue({
   },
   methods: {
     addRoute : function(e){
-      console.log(this, e)
+      for(let i=0; i < $('#results li').length; i++){
+        if(e.srcElement.parentElement == $('#results li')[i]){
+          addPoint(i);
+        }
+      }
     }
   }
 });
@@ -115,17 +119,20 @@ var search = new Vue({
   }
 });
 
-addPoint = function(){
+addPoint = function(index){
+
   routeInputsInstance.addInput()
-  let box = routeInputsInstance.searchBoxes[1]
+  let box = routeInputsInstance.searchBoxes[routeInputsInstance.searchBoxes.length - 2]
+
   let resultData = {
-    address: {freeformAddress: results.items[0].address},
-    poi: { name: results.items[0].name }
+    address: {freeformAddress: results.items[index].address},
+    poi: { name: results.items[index].name }
   }
   box.setResultData(resultData);
-  box.selectedLocation = results.items[0].position
+  box.selectedLocation = results.items[index].position
   locations = []
   for (let box of routeInputsInstance.searchBoxes) {
     locations.push(box.selectedLocation)
   }
+  routeOnMapView.draw(locations)
 }
