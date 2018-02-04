@@ -37,7 +37,7 @@
         <li v-for="item in items">
           <p>{{item.name}}</p>
           <p>{{item.address}}</p>
-          <p>{{item.url}}</p>
+          <a v-bind:href="item.url">{{item.url}}</a>
           <p>{{item.category}}</p>
         </li>
       </ul>
