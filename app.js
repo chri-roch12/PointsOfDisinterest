@@ -1,7 +1,7 @@
-results = new Vue({
-  el: "#results",
+var searchField = new Vue({
+  el: "#searchField",
   data: {
-    items: ['hello']
+    show: false
   }
 })
 
