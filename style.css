@@ -43,8 +43,21 @@ body{
   background-color: #35424a;
 }
 
-body #big-map, #result-list{
+body .row {
   border-bottom: #e8491d 3px solid;
+}
+
+#result-list {
+  max-height: 500px;
+  overflow: scroll;
+}
+
+results li {
+  margin: 0.5rem;
+}
+
+#results li p {
+  margin: 0px;
 }
 
 /* Header */
