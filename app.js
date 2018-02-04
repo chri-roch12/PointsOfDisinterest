@@ -1,10 +1,3 @@
-var app = new Vue({
-  el: '#app',
-  data: {
-    message: 'Points of Disinterest'
-  }
-})
-
 results = new Vue({
   el: "#results",
   data: {
