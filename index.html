@@ -7,41 +7,33 @@
   <link rel="stylesheet" href="style.css">
   <script src="jssdk-4/tomtom.min.js"></script>
   <link rel="stylesheet" type="text/css" href="jssdk-4/map.css"/>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js" integrity="sha384-feJI7QwhOS+hwpX2zkaeJQjeiwlhOP+SdQDqhgvvo1DsjtiSQByFdThsxO669S2D" crossorigin="anonymous"></script>
 </head>
 <body>
 
   <div id="app">
     {{ message }}
   </div>
-  <script src="app.js"></script>
+  <div class="row">
+    <div class="col-md-6">
+      <div id="map" style="height: 500px;"></div>
+    </div>
+    <div class="col-md-6">
+      <h2>Search Results</h2>
+      <ul id="results">
+        <li v-for="item in items">
+          {{ item.message }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <form>
+    <label for="destination">Destination:</label>
+    <input type="text" name="destination">
+    <button class="btn btn-default" id="search">Submit</button>
+  </form>
 
-  <div id="map" style="width: 500px; height: 500px;"></div>
-  <script>
-    var startPos;
-    var geoSuccess = function(position) {
-      startPos = position;
-    };
-    navigator.geolocation.getCurrentPosition(geoSuccess);
-
-    tomtom.key("b3ZvXNJXHCtWtPogGdS2eBkWMsXhRG6T");
-    var map = tomtom.map("map").setView([39.9778, -105.1319], 14);
-    marker = tomtom.L.marker([39.9778, -105.1319], {
-      draggable: true
-    }).bindPopup('Current Location').addTo(map);
-
-    // Show popup each time the marker is moved
-    marker.on('dragend', function(e) {
-      tomtom.reverseGeocode({position: e.target.getLatLng()})
-      .go(function(response) {
-        if (response && response.address && response.address.freeformAddress) {
-          marker.setPopupContent(response.address.freeformAddress);
-        } else {
-          marker.setPopupContent('No results found');
-        }
-        marker.openPopup();
-      });
-    });
-  </script>
-
+<script src="app.js"></script>
 </body>
 </html>
