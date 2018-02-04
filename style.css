@@ -52,12 +52,19 @@ body .row {
   overflow: scroll;
 }
 
-results li {
+#results li {
   margin: 0.5rem;
+  list-style: none;
 }
 
 #results li p {
   margin: 0px;
+}
+
+.clickable {
+  display: inline-block;
+  background-color: lightgrey;
+  border-radius: 2px;
 }
 
 /* Header */

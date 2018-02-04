@@ -40,10 +40,11 @@
       <h2 class="text-center">Along The Way</h2>
       <ul id="results">
         <li v-for="item in items">
-          <p v-on:click="addRoute($event)">{{item.name}}</p>
+          <p class="clickable" v-on:click="addRoute($event)">{{item.name}}</p>
           <p>{{item.address}}</p>
           <a v-bind:href="item.url">{{item.url}}</a>
           <p>{{item.category}}</p>
+          <hr />
         </li>
       </ul>
     </div>
